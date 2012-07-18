@@ -1,0 +1,4 @@
+[Project]
+Name=SixPair++
+Manager=KDevCMakeManager
+VersionControl=kdevgit
