@@ -112,9 +112,6 @@ int main (int argc, char **argv)
 			}
 		}
 		if (!found) std::cout << "No controller found on USB busses" << std::endl;
-// 		std::cout << "Freeing device list..." << std::endl;
-// 		libusb_free_device_list(devs, 1);
-// 		std::cout << "Device list free." << std::endl;
 		std::cout << "Exiting..." << std::endl;
 		libusb_exit(ctx);
 	}
