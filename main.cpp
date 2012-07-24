@@ -155,6 +155,17 @@ void show_master ( libusb_device_handle *devh, int itfnum )
 	}
 }
 
+void set_master ( libusb_device_handle* devh, int itfnum, unsigned char btaddr[6] )
+{
+	std::cout << "Setting master bd_addr to ";
+	printbtaddr(btaddr);
+
+	unsigned char msg[8] = { 0x01, 0x00, btaddr[0], btaddr[1], btaddr[2], btaddr[3], btaddr[4], btaddr[5] };
+	int res = 0;
+	res = libusb_control_transfer ( devh, LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 0x09, 0x03f5, itfnum, msg, sizeof ( msg ), 5000 );
+	if ( res < 0 ) fatal("libusb_control_transfer");
+}
+
 void printbtaddr( unsigned char btaddr[6] )
 {
 	std::ios_base::fmtflags original_flags = std::cout.flags();
@@ -183,17 +194,6 @@ std::string get_usage(char **argv)
 	std::string usage;
 	usage.append("Usage:\n").append(argv[0]).append(" [<bd_addr of master>]");
 	return usage;
-}
-
-void set_master ( libusb_device_handle* devh, int itfnum, unsigned char btaddr[6] )
-{
-	std::cout << "Setting master bd_addr to ";
-	printbtaddr(btaddr);
-
-	unsigned char msg[8] = { 0x01, 0x00, btaddr[0], btaddr[1], btaddr[2], btaddr[3], btaddr[4], btaddr[5] };
-	int res = 0;
-	res = libusb_control_transfer ( devh, LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 0x09, 0x03f5, itfnum, msg, sizeof ( msg ), 5000 );
-	if ( res < 0 ) fatal("libusb_control_transfer");
 }
 
 
